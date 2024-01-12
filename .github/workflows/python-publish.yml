@@ -6,7 +6,7 @@ on:
 
 jobs:
   pypi-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -15,13 +15,13 @@ jobs:
         python-version: '3.x'
     - name: Install dependencies
       run: |
-        sudo apt-get update \
-        && sudo apt-get install -y python-is-python3 \
-        && python -m pip install --upgrade pip \
-        && python -m pip install build \
-        && pip install install requests>=2.26.0 \
-        && pip install pydantic>=1.10.13 \
-        && pip install opencv-contrib-python>=4.9.0.80
+        python -m pip install --upgrade pip
+        python -m pip install build
+        sudo apt-get update
+        sudo apt-get install -y python-is-python3
+        pip install install requests>=2.26.0
+        pip install pydantic>=1.10.13
+        pip install opencv-contrib-python>=4.9.0.80
     - name: Build
       run: |
         python -m build
