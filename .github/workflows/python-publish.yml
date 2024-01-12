@@ -15,11 +15,13 @@ jobs:
         python-version: '3.x'
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip \
+        apt-get update \
+        && apt-get install -y python-is-python3 \
+        && python -m pip install --upgrade pip \
         && python -m pip install build \
-        && python -m pip install requests>=2.26.0 \
-        && python -m pip install pydantic>=1.10.13 \
-        && python -m pip install opencv-contrib-python>=4.9.0.80
+        && pip install install requests>=2.26.0 \
+        && pip install pydantic>=1.10.13 \
+        && pip install opencv-contrib-python>=4.9.0.80
     - name: Build
       run: |
         python -m build
