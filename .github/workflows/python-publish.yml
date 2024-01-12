@@ -19,9 +19,9 @@ jobs:
         python -m pip install build
         sudo apt-get update
         sudo apt-get install -y python-is-python3
-        pip install install requests>=2.26.0
-        pip install pydantic>=1.10.13
-        pip install opencv-contrib-python>=4.9.0.80
+        pip install install requests
+        pip install pydantic
+        pip install opencv-contrib-python
     - name: Build
       run: |
         python -m build
