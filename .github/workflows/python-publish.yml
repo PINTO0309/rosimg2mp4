@@ -18,6 +18,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install build
         pip install install requests
+        pip install --extra-index-url https://rospypi.github.io/simple2 rclpy std_msgs ros2py-init
     - name: Build
       run: |
         python -m build
