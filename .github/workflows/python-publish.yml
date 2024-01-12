@@ -19,8 +19,6 @@ jobs:
         python -m pip install build
         sudo apt-get update
         pip install install requests
-        pip install pydantic
-        pip install opencv-contrib-python
     - name: Build
       run: |
         python -m build

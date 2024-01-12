@@ -1,14 +1,12 @@
 #!/usr/bin/python
 
-import pydantic
-from pydantic_argparse import ArgumentParser
+from argparse import ArgumentParser
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
 from datetime import datetime
-from dataclasses import dataclass
 from typing import Tuple
 
 RED="\033[31m"
@@ -37,8 +35,7 @@ class ImageSaverNode(Node):
         self.video_writer = \
             cv2.VideoWriter(
                 filename=output_mp4_file_name \
-                    if output_mp4_file_name != 'output_yyyymmddhhmmss.mp4' \
-                        else f'output_{datetime.strftime(datetime.now(), "%Y%m%d%H%M%S")}.mp4',
+                    if output_mp4_file_name else f'output_{datetime.strftime(datetime.now(), "%Y%m%d%H%M%S")}.mp4',
                 fourcc=cv2.VideoWriter_fourcc(*'mp4v'),
                 fps=video_writer_fps,
                 frameSize=frame_size,
@@ -52,36 +49,38 @@ class ImageSaverNode(Node):
         self.video_writer.release()
         super().destroy_node()
 
-@dataclass(frozen=True)
-class RGBTopicName():
-    zed2i_rgb: str = '/zed2i/zed_node/rgb_raw/image_raw_color'
-    realsene_rgb: str = '/camera/aligned_depth_to_color/image_raw'
-
-class Arguments(pydantic.BaseModel):
-    rgb_image_topic_name: RGBTopicName = \
-        pydantic.Field(
-            default=RGBTopicName.zed2i_rgb,
-            description='RGB image topic name.',
-        )
-    frame_size: Tuple[int, int] = \
-        pydantic.Field(
-            default=(896, 512),
-            description='Frame size. e.g. --frame-size {Width} {Height}',
-        )
-    video_writer_fps: float = \
-        pydantic.Field(
-            default=15.0,
-            description='Video writer FPS.',
-        )
-    output_mp4_file_name: str = \
-        pydantic.Field(
-            default=f'output_yyyymmddhhmmss.mp4',
-            description='Output MP4 file name. e.g. output.mp4',
-        )
-
 def main():
-    parser = ArgumentParser(model=Arguments)
-    args = parser.parse_typed_args()
+    parser = ArgumentParser()
+    parser.add_argument(
+        '-i',
+        '--rgb_image_topic_name',
+        type=str,
+        default='/zed2i/zed_node/rgb_raw/image_raw_color',
+        help='RGB image topic name.',
+    )
+    parser.add_argument(
+        '-o',
+        '--output_mp4_file_name',
+        type=str,
+        default='',
+        help='Output MP4 file name. e.g. output.mp4',
+    )
+    parser.add_argument(
+        '-fs',
+        '--frame_size',
+        type=int,
+        nargs=2,
+        default=(896, 512),
+        help='Frame size. e.g. --frame-size {Width} {Height}',
+    )
+    parser.add_argument(
+        '-vf',
+        '--video_writer_fps',
+        type=float,
+        default=15.0,
+        help='Video writer FPS.',
+    )
+    args = parser.parse_args()
 
     rclpy.init()
     image_saver = \
@@ -92,7 +91,7 @@ def main():
             output_mp4_file_name=args.output_mp4_file_name,
         )
     try:
-        print(f'{GREEN}Start recording... Ctrl + C to end recording.{RESET}')
+        print(f'{GREEN}Start recording... Ctrl+C to end recording.{RESET}')
         while rclpy.ok():
             rclpy.spin_once(image_saver)
     except KeyboardInterrupt:
