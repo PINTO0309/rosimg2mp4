@@ -13,8 +13,6 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "pydantic>=2.5.3",
-    "pydantic-core>=2.14.6",
     "opencv-contrib-python>=4.9.0.80"
 ]
 dynamic = ["version"]

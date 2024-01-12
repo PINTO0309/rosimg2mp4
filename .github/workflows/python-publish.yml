@@ -17,7 +17,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install build
-        sudo apt-get update
         pip install install requests
     - name: Build
       run: |
