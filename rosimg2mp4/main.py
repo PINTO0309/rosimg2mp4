@@ -40,10 +40,12 @@ class ImageSaverNode(Node):
                 fps=video_writer_fps,
                 frameSize=frame_size,
             )
+        self.frame_size = frame_size
 
     def image_callback(self, msg):
         cv_image = self.bridge.imgmsg_to_cv2(msg, 'bgr8')
-        self.video_writer.write(cv_image)
+        resized_cv_image = cv2.resize(cv_image, self.frame_size)
+        self.video_writer.write(resized_cv_image)
 
     def destroy_node(self):
         self.video_writer.release()
