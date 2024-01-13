@@ -1,5 +1,8 @@
 # rosimg2mp4
 A simple tool to record ROS2 Image topics to MP4.
+
+[![Downloads](https://static.pepy.tech/personalized-badge/rosimg2mp4?period=total&units=none&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/rosimg2mp4)
+
 ## 1. Install ROS2
 ```bash
 DISTRO=humble
