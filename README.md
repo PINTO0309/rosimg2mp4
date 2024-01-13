@@ -2,6 +2,10 @@
 A simple tool to record ROS2 Image topics to MP4.
 
 ```
+pip install rosimg2mp4
+```
+
+```
 usage: main.py [-h]
 [-i RGB_IMAGE_TOPIC_NAME]
 [-o OUTPUT_MP4_FILE_NAME]
