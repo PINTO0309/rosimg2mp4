@@ -1,1 +1,1 @@
-from .main import main
+from ._version import version # type: ignore
