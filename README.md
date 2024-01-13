@@ -6,7 +6,7 @@ pip install rosimg2mp4
 ```
 
 ```
-usage: main.py [-h]
+usage: rosimg2mp4 [-h]
 [-i RGB_IMAGE_TOPIC_NAME]
 [-o OUTPUT_MP4_FILE_NAME]
 [-fs FRAME_SIZE FRAME_SIZE]
